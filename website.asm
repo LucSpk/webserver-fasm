@@ -1,17 +1,17 @@
 format ELF64 executable
 
-SYS_write = 1
-SYS_exite = 60
-SYS_socket = 41
+SYS_write equ 1
+SYS_exite equ 60
+SYS_socket equ 41
 
-AF_INET = 2
-SOCK_STREAM = 1
+AF_INET equ 2
+SOCK_STREAM equ 1
 
-STDOUT = 1
-STDERR = 2
+STDOUT equ 1
+STDERR equ 2
 
-EXIT_SUCCESS = 0
-EXIT_FAILURE = 1
+EXIT_SUCCESS equ 0
+EXIT_FAILURE equ 1
 
 macro write fd, buf, count {
     mov rax, SYS_write
@@ -40,7 +40,7 @@ segment readable executable
 entry main
 
 main: 
-    
+
     write STDOUT, start, start_len
     socket AF_INET, SOCK_STREAM, 0
     ;;socket 69, 420, 0
