@@ -49,6 +49,8 @@ main:
     jl error
 
     mov dword [sockfd], eax
+    write STDOUT, ok_msg, ok_msg_len
+
     exit EXIT_SUCCESS
 
 error: 
@@ -57,10 +59,14 @@ error:
 
 segment readable writeable
 sockfd dd 0
-start db "Starting Web Server!", 10
+
+start db "INFO: Starting Web Server!", 10
 start_len = $ - start
 
-socket_trace_msg db "Creating a socket...", 10
+ok_msg db "INFO: OK!", 10
+ok_msg_len = $ - ok_msg
+
+socket_trace_msg db "INFO: Creating a socket...", 10
 socket_trace_msg_len = $ - socket_trace_msg
 
 error_msg db "ERROR!", 10
