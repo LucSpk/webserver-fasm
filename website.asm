@@ -10,6 +10,9 @@ SOCK_STREAM = 1
 STDOUT = 1
 STDERR = 2
 
+EXIT_SUCCESS = 0
+EXIT_FAILURE = 1
+
 macro write fd, buf, count {
     mov rax, SYS_write
     mov rdi, fd
@@ -45,11 +48,11 @@ main:
     jl error
 
     mov dword [sockfd], eax
-    exit 0
+    exit EXIT_SUCCESS
 
 error: 
     write STDERR, error_msg, error_msg_len
-    exit 1
+    exit EXIT_FAILURE
 
 segment readable writeable
 sockfd dd 0
