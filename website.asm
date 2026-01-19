@@ -40,8 +40,9 @@ segment readable executable
 entry main
 
 main: 
-
     write STDOUT, start, start_len
+
+    write STDOUT, socket_trace_msg, socket_trace_msg_len
     socket AF_INET, SOCK_STREAM, 0
     ;;socket 69, 420, 0
     cmp rax, 0
@@ -58,6 +59,9 @@ segment readable writeable
 sockfd dd 0
 start db "Starting Web Server!", 10
 start_len = $ - start
+
+socket_trace_msg db "Creating a socket...", 10
+socket_trace_msg_len = $ - socket_trace_msg
 
 error_msg db "ERROR!", 10
 error_msg_len = $ - error_msg
