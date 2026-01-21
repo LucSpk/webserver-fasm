@@ -4,6 +4,8 @@ SYS_write equ 1
 SYS_exite equ 60
 SYS_socket equ 41
 SYS_bind equ 49
+SYS_listen equ 50
+SYS_close equ 3
 
 AF_INET equ 2
 SOCK_STREAM equ 1
@@ -15,6 +17,39 @@ STDERR equ 2
 EXIT_SUCCESS equ 0
 EXIT_FAILURE equ 1
 
+MAX_CONN equ 5
+
+
+macro syscall1 number, a
+{
+    mov rax, number
+    mov rdi, a
+    syscall
+}
+
+macro syscall2 number, a, b
+{
+    mov rax, number
+    mov rdi, a
+    mov rsi, b
+    syscall
+}
+
+macro syscall3 number, a, b, c 
+{
+    mov rax, number
+    mov rdi, a
+    mov rsi, b
+    mov rdx, c
+    syscall
+}
+
+macro syscall1 number, a
+{
+    mov rax, number
+    mov rdi, a
+    syscall
+}
 
 macro write fd, buf, count {
     mov rax, SYS_write
@@ -32,19 +67,21 @@ macro socket domain, type, protocol
     MOV rdx, protocol
     SYSCALL
 }
-macro syscall3 number, a, b, c 
+
+macro close fd
 {
-    mov rax, number
-    mov rdi, a
-    mov rax, b
-    mov rax, c
-    syscall
+    syscall1 SYS_close, fd
 }
 
 macro bind sockfd, addr, addrlen
 {
     syscall3 SYS_bind, sockfd, addr, addrlen
 }
+
+macro listen sockfd, backlog
+{
+    syscall2 SYS_listen, sockfd, backlog
+}    
 
 macro exit code {
     mov rax, SYS_exite
@@ -70,17 +107,23 @@ main:
     mov word [servaddr.sin_family], AF_INET
     mov word [servaddr.sin_port], 14619         ;; Isso corresponde a porta 6969 -> o valor 6969 tem 2 bytes que quando invertido da 14619. Note que 6969 em hexa é 0x1b39 e seu inverso 0x391b é 14619
     mov dword [servaddr.sin_addr], INADDR_ANY
-
-    bind [sockfd], servaddr.sin_family, servaddr.sin_addr
+    bind [sockfd], servaddr.sin_family, sizeof_servaddr
     cmp rax, 0
     jl error
+
+    write STDOUT, listen_trace_msg, listen_trace_msg_len
+    listen [sockfd], MAX_CONN
+    cmp rax, 0
+    jl error
+
  
     write STDOUT, ok_msg, ok_msg_len
-
+    close [sockfd]
     exit EXIT_SUCCESS
 
 error: 
     write STDERR, error_msg, error_msg_len
+    close [sockfd]
     exit EXIT_FAILURE
 
 segment readable writeable
@@ -102,6 +145,9 @@ socket_trace_msg_len = $ - socket_trace_msg
 
 bind_trace_msg db "INFO: Binding the socket...", 10
 bind_trace_msg_len = $ - bind_trace_msg
+
+listen_trace_msg db "INFO: Listening to the socket...", 10
+listen_trace_msg_len = $ - listen_trace_msg
 
 error_msg db "ERROR!", 10
 error_msg_len = $ - error_msg
