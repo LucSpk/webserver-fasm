@@ -44,13 +44,6 @@ macro syscall3 number, a, b, c
     syscall
 }
 
-macro syscall1 number, a
-{
-    mov rax, number
-    mov rdi, a
-    syscall
-}
-
 macro write fd, buf, count {
     mov rax, SYS_write
     mov rdi, fd
