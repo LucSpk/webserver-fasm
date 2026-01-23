@@ -1,12 +1,0 @@
---2026-01-19 20:55:58--  https://musl.libc.org/releases/musl-1.2.5.tar.gz
-Loaded CA certificate '/etc/ssl/certs/ca-certificates.crt'
-Resolving musl.libc.org (musl.libc.org)... 45.63.0.111, 2001:19f0:4009:4061:5400:ff:fe11:6da2
-Connecting to musl.libc.org (musl.libc.org)|45.63.0.111|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1080786 (1.0M) [application/octet-stream]
-Saving to: ‘musl-1.2.5.tar.gz’
-
-musl-1.2.5.tar.gz              0%[                                               ]       0  --.-KB/s               musl-1.2.5.tar.gz             10%[===>                                           ] 110.48K   528KB/s               musl-1.2.5.tar.gz             27%[===========>                                   ] 286.48K   697KB/s               musl-1.2.5.tar.gz             46%[=====================>                         ] 494.48K   803KB/s               musl-1.2.5.tar.gz             58%[==========================>                    ] 622.48K   371KB/s               musl-1.2.5.tar.gz             62%[============================>                  ] 654.48K   341KB/s               musl-1.2.5.tar.gz             80%[====================================>          ] 846.48K   398KB/s               musl-1.2.5.tar.gz             96%[============================================>  ]   1022K   439KB/s               musl-1.2.5.tar.gz            100%[==============================================>]   1.03M   450KB/s    in 2.3s    
-
-2026-01-19 20:56:01 (450 KB/s) - ‘musl-1.2.5.tar.gz’ saved [1080786/1080786]
-
