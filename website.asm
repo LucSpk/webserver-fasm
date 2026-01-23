@@ -116,13 +116,14 @@ main:
     cmp rax, 0
     jl error
 
+    ;; Vai esperar a conexao de um client, pode usar o comando telnet 127.0.0.1 6969 para conectar. Precisa do 'inetutils' instalado, pode usar para instalar -> sudo pacman -S inetutils.
     write STDOUT, accept_trace_msg, accept_trace_msg_len
     accept [sockfd], cliaddr.sin_family, cliaddr_len
     cmp rax, 0
     jl error
 
     mov qword [connfd], rax
-
+    write [connfd], hello, hello_len    
  
     write STDOUT, ok_msg, ok_msg_len
     close [connfd]
@@ -152,6 +153,9 @@ sizeof_servaddr = $ - servaddr.sin_family
 
 cliaddr servaddr_in
 cliaddr_len dd sizeof_servaddr
+
+hello db "Hello from flat assembler!", 10
+hello_len = $ - hello
 
 
 start db "INFO: Starting Web Server!", 10
